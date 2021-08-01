@@ -13,19 +13,6 @@ function md5    { Get-FileHash -Algorithm MD5 $args }
 function sha1   { Get-FileHash -Algorithm SHA1 $args }
 function sha256 { Get-FileHash -Algorithm SHA256 $args }
 
-# Does the the rough equivalent of dir /s /b. For example, dirs *.png is dir /s /b *.png
-function dirs
-{
-    if ($args.Count -gt 0)
-    {
-        Get-ChildItem -Recurse -Include "$args" | Foreach-Object FullName
-    }
-    else
-    {
-        Get-ChildItem -Recurse | Foreach-Object FullName
-    }
-}
-
 Function pubip {
  (Invoke-WebRequest http://ifconfig.me/ip ).Content
 }
@@ -39,6 +26,20 @@ function unzip ($file) {
         echo("Extracting", $file, "to", $dirname)
         New-Item -Force -ItemType directory -Path $dirname
         expand-archive $file -OutputPath $dirname -ShowProgress
+}
+
+# Linux type functions
+# Does the the rough equivalent of dir /s /b. For example, dirs *.png is dir /s /b *.png
+function dirs
+{
+    if ($args.Count -gt 0)
+    {
+        Get-ChildItem -Recurse -Include "$args" | Foreach-Object FullName
+    }
+    else
+    {
+        Get-ChildItem -Recurse | Foreach-Object FullName
+    }
 }
 
 function grep($regex, $dir) {
@@ -64,3 +65,14 @@ function pkill($name) {
 function pgrep($name) {
         ps | grep $name
 }
+
+# Git
+function clone { git clone $args }
+function pull { git pull }
+function push { git push }
+function commit { git commit -m "$args"}
+function stash { git stash $args }
+function apply { git stash apply }
+function add { git add $args }
+function remote { git remote add origin $args }
+function status { git status }
