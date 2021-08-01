@@ -76,3 +76,4 @@ function apply { git stash apply }
 function add { git add $args }
 function remote { git remote add origin $args }
 function status { git status }
+function restore { git restore --staged $args }
