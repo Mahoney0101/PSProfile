@@ -79,3 +79,11 @@ function add { git add $args }
 function remote { git remote add origin $args }
 function status { git status }
 function restore { git restore --staged $args }
+
+function cloneall($user, $token) { 
+        $responce = curl "https://api.github.com/users/$user/repos?access_token=$token" | ConvertFrom-Json
+        foreach ($repo in $responce)
+        {
+                git clone ($repo.ssh_url)
+        } 
+}
