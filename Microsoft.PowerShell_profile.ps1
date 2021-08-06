@@ -66,7 +66,9 @@ function pgrep($name) {
         ps | grep $name
 }
 
-function csgrep($filetype, $searchterm) { dirs *.$filetype | Get-ChildItem -Recurse | Select-String "$searchterm" }
+function csgrep($filetype, $searchterm) { 
+        dirs *.$filetype | Get-ChildItem -Recurse | Select-String "$searchterm" 
+}
 
 # Git
 function clone { git clone $args }
