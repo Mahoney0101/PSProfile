@@ -81,7 +81,8 @@ function status { git status }
 function restore { git restore --staged $args }
 
 function cloneall($user, $token) { 
-        $responce = curl "https://api.github.com/users/$user/repos?access_token=$token" | ConvertFrom-Json
+        curl -i -u ${user}:$token https://api.github.com/user
+        $responce = curl -H "Authorization: token $token" https://api.github.com/user/repos | ConvertFrom-Json
         foreach ($repo in $responce)
         {
                 git clone ($repo.ssh_url)
