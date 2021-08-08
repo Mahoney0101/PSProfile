@@ -28,6 +28,20 @@ function unzip ($file) {
         expand-archive $file -OutputPath $dirname -ShowProgress
 }
 
+function utc { [System.DateTime]::UtcNow }
+
+function reloadps { $profile }
+
+function findfile($name) 
+{ 
+        ls -recurse -filter "*${name}*" -ErrorAction SilentlyContinue
+        | foreach{
+                $placepath = $_.directory
+                echo "${place_path}\${_}"
+        }
+}
+
+
 # Linux type functions
 # Does the the rough equivalent of dir /s /b. For example, dirs *.png is dir /s /b *.png
 function dirs
@@ -66,15 +80,18 @@ function pgrep($name) {
         ps | grep $name
 }
 
-function csgrep($filetype, $searchterm) { 
-        dirs *.$filetype | Get-ChildItem -Recurse | Select-String "$searchterm" 
-}
+function df { get-volume }
+
+function export($name, $value) { set-item -force -path "env:$name" -value $value }
+
+function csgrep($filetype, $searchterm) { dirs *.$filetype | Get-ChildItem -Recurse | Select-String "$searchterm" }
+
 
 # Git
 function clone { git clone $args }
 function pull { git pull }
 function push { git push }
-function commit { git commit -m "$args"}
+function commit { git commit -m $args}
 function stash { git stash $args }
 function apply { git stash apply }
 function add { git add $args }
