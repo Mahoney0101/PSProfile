@@ -83,7 +83,6 @@ function status { git status }
 function restore { git restore --staged $args }
 
 function cloneall($user, $token) { 
-        curl -i -u ${user}:$token https://api.github.com/user
         $responce = curl -H "Authorization: token $token" https://api.github.com/user/repos?per_page=1000 | ConvertFrom-Json
         foreach ($repo in $responce)
         {
