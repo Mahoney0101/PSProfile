@@ -2,7 +2,8 @@ Import-Module posh-git
 
 function ff { & "C:\Program Files\Mozilla Firefox\firefox.exe" }
 function vs { & "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\devenv.exe"}
-function discord {& "C:\Users\hoooc\AppData\Local\Discord\app-0.0.309\Discord.exe" }
+function discord { & "C:\Users\hoooc\AppData\Local\Discord\app-0.0.309\Discord.exe" }
+function signal { & "C:\Users\hoooc\AppData\Local\Programs\signal-desktop\Signal.exe" }
 
 function touch {New-Item -ItemType File -Name ($args[0])}
 
@@ -40,7 +41,6 @@ function findfile($name)
                 echo "${place_path}\${_}"
         }
 }
-
 
 # Linux type functions
 # Does the the rough equivalent of dir /s /b. For example, dirs *.png is dir /s /b *.png
@@ -98,6 +98,8 @@ function add { git add $args }
 function remote { git remote add origin $args }
 function status { git status }
 function restore { git restore --staged $args }
+function branches { git branch -a }
+function checkout { git checkout $args }
 
 function cloneall($user, $token) { 
         $responce = curl -H "Authorization: token $token" https://api.github.com/user/repos?per_page=1000 | ConvertFrom-Json
@@ -105,4 +107,9 @@ function cloneall($user, $token) {
         {
                 git clone ($repo.ssh_url)
         } 
+}
+
+function pullall {
+        cd d:\scm
+        Get-ChildItem | ForEach-Object -Parallel { cd $_; echo "Pulling $_"; git pull }
 }
