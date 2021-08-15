@@ -14,6 +14,9 @@ function md5    { Get-FileHash -Algorithm MD5 $args }
 function sha1   { Get-FileHash -Algorithm SHA1 $args }
 function sha256 { Get-FileHash -Algorithm SHA256 $args }
 
+# Using Windows package manager
+function upgrade { winget upgrade powershell }
+
 Function pubip {
  (Invoke-WebRequest http://ifconfig.me/ip ).Content
 }
