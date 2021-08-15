@@ -44,6 +44,10 @@ function findfile($name)
 
 # Linux type functions
 # Does the the rough equivalent of dir /s /b. For example, dirs *.png is dir /s /b *.png
+function poweroff { Stop-Computer -ComputerName localhost } 
+
+function reboot { Restart-Computer -ComputerName localhost } 
+
 function dirs
 {
     if ($args.Count -gt 0)
@@ -101,7 +105,8 @@ function restore { git restore --staged $args }
 function branches { git branch -a }
 function checkout { git checkout $args }
 
-function cloneall($user, $token) { 
+function cloneall($token) { 
+        cd d:\scm
         $responce = curl -H "Authorization: token $token" https://api.github.com/user/repos?per_page=1000 | ConvertFrom-Json
         foreach ($repo in $responce)
         {
