@@ -25,12 +25,13 @@ Function genpass {
 -join(48..57+65..90+97..122|ForEach-Object{[char]$_}|Get-Random -C 20)
 }
 
-function unzip ($file) {
-        $dirname = (Get-Item $file).Basename
-        echo("Extracting", $file, "to", $dirname)
-        New-Item -Force -ItemType directory -Path $dirname
-        expand-archive $file -OutputPath $dirname -ShowProgress
+function zip($source, $destination){
+        Compress-Archive -LiteralPath $source -DestinationPath $destination
 }
+
+function unzip ($source, $destination) {
+        Expand-Archive -LiteralPath $source -DestinationPath $destination
+        }
 
 function utc { [System.DateTime]::UtcNow }
 
