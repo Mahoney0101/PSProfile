@@ -124,7 +124,7 @@ function pullall {
 }
 
 function createrepo ($token, $name, $private, $description){
-        $response = curl -H "Authorization: token $token" -d "{\""name\"": \""$name\"", \""private\"": \""$private\"", \""description\"": \""$description\""}" https://api.github.com/user/repos | ConvertFrom-Json
+        $response = curl -H "Authorization: token $token" -d "{\""name\"": \""$name\"", \""private\"": $private, \""description\"": \""$description\""}" https://api.github.com/user/repos | ConvertFrom-Json
         if($response.ssh_url){
                 echo "Add this repo as origin -- git remote add origin "$response.ssh_url
         }
