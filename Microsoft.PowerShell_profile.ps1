@@ -122,3 +122,13 @@ function pullall {
         cd d:\scm
         Get-ChildItem | ForEach-Object -Parallel { cd $_; echo "Pulling $_"; git pull }
 }
+
+function createrepo ($token, $name, $private, $description){
+        $response = curl -H "Authorization: token $token" -d "{\""name\"": \""$name\"", \""private\"": \""$private\"", \""description\"": \""$description\""}" https://api.github.com/user/repos | ConvertFrom-Json
+        if($response.ssh_url){
+                echo "Add this repo as origin -- git remote add origin "$response.ssh_url
+        }
+        else{
+                echo "Error creating repository."
+        }
+}
