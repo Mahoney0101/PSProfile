@@ -93,6 +93,7 @@ function df { Get-Volume }
 function export($name, $value) { Set-Item -force -path "env:$name" -value $value }
 
 function csgrep($filetype, $searchterm) { dirs *.$filetype | Get-ChildItem -Recurse | Select-String "$searchterm" }
+
 function isadmin { [Security.Principal.WindowsIdentity]::GetCurrent().Groups -contains 'S-1-5-32-544' }
 
 # Git
