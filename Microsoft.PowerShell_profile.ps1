@@ -40,18 +40,18 @@ function reloadps { $profile }
 function findfile($name) 
 { 
         ls -recurse -filter "*${name}*" -ErrorAction SilentlyContinue
-        | foreach{
+        | ForEach-Object -Parallel{
                 $placepath = $_.directory
                 echo "${place_path}\${_}"
         }
 }
 
 # Linux type functions
-# Does the the rough equivalent of dir /s /b. For example, dirs *.png is dir /s /b *.png
 function poweroff { Stop-Computer -ComputerName localhost } 
 
 function reboot { Restart-Computer -ComputerName localhost } 
 
+# Does the the rough equivalent of dir /s /b. For example, dirs *.png is dir /s /b *.png
 function dirs
 {
     if ($args.Count -gt 0)
@@ -93,7 +93,7 @@ function df { get-volume }
 function export($name, $value) { set-item -force -path "env:$name" -value $value }
 
 function csgrep($filetype, $searchterm) { dirs *.$filetype | Get-ChildItem -Recurse | Select-String "$searchterm" }
-
+function isadmin { [Security.Principal.WindowsIdentity]::GetCurrent().Groups -contains 'S-1-5-32-544' }
 
 # Git
 function clone { git clone $args }
@@ -131,4 +131,13 @@ function createrepo ($token, $name, $private, $description){
         else{
                 echo "Error creating repository."
         }
+}
+
+function sessionfunctions { dir function: }
+function scm {
+        set-location D:\scm
+        Get-ChildItem
+        | Where-Object{$_.psiscontainer}| ForEach-Object { $fname = $_ -creplace '(?s)^.*\\', ''
+        New-Item function:\ -name global:$fname -value "set-location d:\scm\$($fname)" } 
+        | Out-Null
 }
