@@ -136,7 +136,7 @@ function createrepo ($token, $name, $private, $description){
 function sessionfunctions { Get-ChildItem function: }
 function scm {
         if(Test-Path -Path 'D:\'){
-                set-location D:\scm
+                Set-Location D:\scm
                 Get-ChildItem
                 | Where-Object{$_.psiscontainer}| ForEach-Object { $fname = $_ -creplace '(?s)^.*\\', ''
                 New-Item function:\ -name global:$fname -value "set-location d:\scm\$($fname)" } 
