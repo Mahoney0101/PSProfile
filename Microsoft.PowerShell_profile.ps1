@@ -135,9 +135,14 @@ function createrepo ($token, $name, $private, $description){
 
 function sessionfunctions { dir function: }
 function scm {
-        set-location D:\scm
-        Get-ChildItem
-        | Where-Object{$_.psiscontainer}| ForEach-Object { $fname = $_ -creplace '(?s)^.*\\', ''
-        New-Item function:\ -name global:$fname -value "set-location d:\scm\$($fname)" } 
-        | Out-Null
+        if(Test-Path -Path 'D:\'){
+                set-location D:\scm
+                Get-ChildItem
+                | Where-Object{$_.psiscontainer}| ForEach-Object { $fname = $_ -creplace '(?s)^.*\\', ''
+                New-Item function:\ -name global:$fname -value "set-location d:\scm\$($fname)" } 
+                | Out-Null
+        }
+        else{
+                echo 'D:\ Drive does not exist'
+        }
 }
