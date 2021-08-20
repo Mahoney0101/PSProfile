@@ -112,8 +112,8 @@ function checkout { git checkout $args }
 
 function cloneall($token) { 
         Set-Location d:\scm
-        $responce = curl -H "Authorization: token $token" https://api.github.com/user/repos?per_page=1000 | ConvertFrom-Json
-        foreach ($repo in $responce)
+        $response = curl -H "Authorization: token $token" https://api.github.com/user/repos?per_page=1000 | ConvertFrom-Json
+        foreach ($repo in $response)
         {
                 git clone ($repo.ssh_url)
         } 
