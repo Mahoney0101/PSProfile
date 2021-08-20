@@ -7,8 +7,8 @@ function signal { & "C:\Users\hoooc\AppData\Local\Programs\signal-desktop\Signal
 
 function touch {New-Item -ItemType File -Name ($args[0])}
 
-function cd...  { cd ..\.. }
-function cd.... { cd ..\..\.. }
+function cd...  { Set-Location ..\.. }
+function cd.... { Set-Location ..\..\.. }
 
 function md5    { Get-FileHash -Algorithm MD5 $args }
 function sha1   { Get-FileHash -Algorithm SHA1 $args }
@@ -39,10 +39,10 @@ function reloadps { $profile }
 
 function findfile($name) 
 { 
-        ls -recurse -filter "*${name}*" -ErrorAction SilentlyContinue
+        Get-ChildItem -recurse -filter "*${name}*" -ErrorAction SilentlyContinue
         | ForEach-Object -Parallel{
                 $placepath = $_.directory
-                echo "${place_path}\${_}"
+                Write-Output "${place_path}\${_}"
         }
 }
 
@@ -66,10 +66,10 @@ function dirs
 
 function grep($regex, $dir) {
         if ( $dir ) {
-                ls $dir | select-string $regex
+        Get-ChildItem $dir | Select-String $regex
                 return
         }
-        $input | select-string $regex
+        $input | Select-String $regex
 }
 
 function sed($file, $find, $replace){
@@ -81,16 +81,16 @@ function which($name) {
 }
 
 function pkill($name) {
-        ps $name -ErrorAction SilentlyContinue | kill
+        Get-Process $name -ErrorAction SilentlyContinue | Stop-Process
 }
 
 function pgrep($name) {
-        ps | grep $name
+        Get-Process | grep $name
 }
 
-function df { get-volume }
+function df { Get-Volume }
 
-function export($name, $value) { set-item -force -path "env:$name" -value $value }
+function export($name, $value) { Set-Item -force -path "env:$name" -value $value }
 
 function csgrep($filetype, $searchterm) { dirs *.$filetype | Get-ChildItem -Recurse | Select-String "$searchterm" }
 function isadmin { [Security.Principal.WindowsIdentity]::GetCurrent().Groups -contains 'S-1-5-32-544' }
@@ -110,7 +110,7 @@ function branches { git branch -a }
 function checkout { git checkout $args }
 
 function cloneall($token) { 
-        cd d:\scm
+        Set-Location d:\scm
         $responce = curl -H "Authorization: token $token" https://api.github.com/user/repos?per_page=1000 | ConvertFrom-Json
         foreach ($repo in $responce)
         {
@@ -119,21 +119,21 @@ function cloneall($token) {
 }
 
 function pullall {
-        cd d:\scm
-        Get-ChildItem | ForEach-Object -Parallel { cd $_; echo "Pulling $_"; git pull }
+        Set-Location d:\scm
+        Get-ChildItem | ForEach-Object -Parallel { Set-Location $_; Write-Output "Pulling $_"; git pull }
 }
 
 function createrepo ($token, $name, $private, $description){
         $response = curl -H "Authorization: token $token" -d "{\""name\"": \""$name\"", \""private\"": $private, \""description\"": \""$description\""}" https://api.github.com/user/repos | ConvertFrom-Json
         if($response.ssh_url){
-                echo "Add this repo as origin -- git remote add origin "$response.ssh_url
+                Write-Output "Add this repo as origin -- git remote add origin "$response.ssh_url
         }
         else{
-                echo "Error creating repository."
+                Write-Output "Error creating repository."
         }
 }
 
-function sessionfunctions { dir function: }
+function sessionfunctions { Get-ChildItem function: }
 function scm {
         if(Test-Path -Path 'D:\'){
                 set-location D:\scm
@@ -143,6 +143,6 @@ function scm {
                 | Out-Null
         }
         else{
-                echo 'D:\ Drive does not exist'
+                Write-Output 'D:\ Drive does not exist'
         }
 }
