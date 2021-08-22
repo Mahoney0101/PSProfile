@@ -142,6 +142,7 @@ function scm {
                 | Where-Object{$_.psiscontainer}| ForEach-Object { $fname = $_ -creplace '(?s)^.*\\', ''
                 New-Item function:\ -name global:$fname -value "set-location d:\scm\$($fname)" } 
                 | Out-Null
+                Set-Location ~
         }
         else{
                 Write-Output 'D:\ Drive does not exist'
