@@ -52,6 +52,14 @@ function poweroff { Stop-Computer -ComputerName localhost }
 function reboot { Restart-Computer -ComputerName localhost } 
 
 # Does the the rough equivalent of dir /s /b. For example, dirs *.png is dir /s /b *.png
+
+function awk($file, $delimiter) {
+        get-content $file | foreach-object {
+        $data = $_ -split $delimiter
+        Write-output $data
+}
+}
+
 function dirs
 {
     if ($args.Count -gt 0)
