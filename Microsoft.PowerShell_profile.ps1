@@ -1,5 +1,8 @@
 Import-Module posh-git
 
+$Host.UI.RawUI.ForegroundColor = “Green”
+if ($host.UI.RawUI.WindowTitle -match “Administrator”) {$Host.UI.RawUI.ForegroundColor = “DarkRed”}
+
 function ff { & "C:\Program Files\Mozilla Firefox\firefox.exe" }
 function vs { & "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\devenv.exe"}
 function discord { & "C:\Users\hoooc\AppData\Local\Discord\app-0.0.309\Discord.exe" }
@@ -47,17 +50,22 @@ function findfile($name)
 }
 
 # Linux type functions
-function poweroff { Stop-Computer -ComputerName localhost } 
+function po { Stop-Computer -ComputerName localhost } 
 
-function reboot { Restart-Computer -ComputerName localhost } 
+function rs { Restart-Computer -ComputerName localhost } 
 
-# Does the the rough equivalent of dir /s /b. For example, dirs *.png is dir /s /b *.png
-
-function awk($file, $delimiter) {
-        get-content $file | foreach-object {
+function awk($file, $delimiter, $de, $col) {
+        get-content $file | Foreach-Object {
         $data = $_ -split $delimiter
+        if($col)
+        {
+                $column = $data -split $de
+                Write-Output $column[$col]
+        }
+        else{
         Write-output $data
-}
+        }
+        }
 }
 
 function dirs
