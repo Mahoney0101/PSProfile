@@ -1,6 +1,7 @@
 Import-Module posh-git
 
 $Host.UI.RawUI.ForegroundColor = “Green”
+
 if ($host.UI.RawUI.WindowTitle -match “Administrator”) {$Host.UI.RawUI.ForegroundColor = “DarkRed”}
 
 function ff { & "C:\Program Files\Mozilla Firefox\firefox.exe" }
@@ -151,6 +152,7 @@ function createrepo ($token, $name, $private, $description){
 }
 
 function sessionfunctions { Get-ChildItem function: }
+
 function scm {
         if(Test-Path -Path 'D:\'){
                 Set-Location D:\scm
