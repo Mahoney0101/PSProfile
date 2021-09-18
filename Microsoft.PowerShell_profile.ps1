@@ -155,6 +155,10 @@ function github { Start-Process firefox https://github.com }
 
 function sessionfunctions { Get-ChildItem function: }
 
+function show-path {
+        ($env:path).split(";")
+}
+
 function scm {
         if(Test-Path -Path 'D:\'){
                 Set-Location D:\scm
