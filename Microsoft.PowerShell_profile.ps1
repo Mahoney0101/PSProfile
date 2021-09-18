@@ -151,6 +151,8 @@ function createrepo ($token, $name, $private, $description){
         }
 }
 
+function github { Start-Process firefox https://github.com }
+
 function sessionfunctions { Get-ChildItem function: }
 
 function scm {
