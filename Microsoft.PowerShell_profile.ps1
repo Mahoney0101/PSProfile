@@ -1,8 +1,9 @@
 Import-Module posh-git
 
 $Host.UI.RawUI.ForegroundColor = “Green”
-
 if ($host.UI.RawUI.WindowTitle -match “Administrator”) {$Host.UI.RawUI.ForegroundColor = “DarkRed”}
+
+Set-Alias mongo "C:\Program Files\MongoDB\Server\5.0\bin\mongod.exe"
 
 function ff { & "C:\Program Files\Mozilla Firefox\firefox.exe" }
 function vs { & "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\devenv.exe"}
@@ -39,7 +40,7 @@ function unzip ($source, $destination) {
 
 function utc { [System.DateTime]::UtcNow }
 
-function reloadps { $profile }
+function reloadps { & $profile }
 
 function findfile($name) 
 { 
@@ -50,7 +51,6 @@ function findfile($name)
         }
 }
 
-# Linux type functions
 function po { Stop-Computer -ComputerName localhost } 
 
 function rs { Restart-Computer -ComputerName localhost } 
@@ -151,13 +151,22 @@ function createrepo ($token, $name, $private, $description){
         }
 }
 
-function github { Start-Process firefox https://github.com }
+function mongo-local {
+        if(Test-Path -Path 'D:\'){
+                if(Test-Path -Path 'D:\mongodb\data'){
+                        mongo --dbpath D:\mongodb\data
+                }
+                else{
+                        New-Item -Path D:\mongodb\data -Type Directory
+                        mongo --dbpath 'D:\mongodb\data'
+                }
+        }
+        else{
+                Write-Output "D Drive not available"
+        }
+}
 
 function sessionfunctions { Get-ChildItem function: }
-
-function show-path {
-        ($env:path).split(";")
-}
 
 function scm {
         if(Test-Path -Path 'D:\'){
