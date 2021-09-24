@@ -1,4 +1,6 @@
 Import-Module posh-git
+Import-Module oh-my-posh
+Import-Module terminal-icons
 
 $Host.UI.RawUI.ForegroundColor = “Green”
 if ($host.UI.RawUI.WindowTitle -match “Administrator”) {$Host.UI.RawUI.ForegroundColor = “DarkRed”}
