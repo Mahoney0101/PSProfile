@@ -1,6 +1,9 @@
 Import-Module posh-git
 Import-Module oh-my-posh
 Import-Module terminal-icons
+$ThemePath = $profile.Replace('Microsoft.PowerShell_profile.ps1',"")
+Set-PoshPrompt -Theme "${ThemePath}james.omp.json"
+Set-PSReadlineKeyHandler -Key Tab -Function MenuComplete
 
 $Host.UI.RawUI.ForegroundColor = “Green”
 if ($host.UI.RawUI.WindowTitle -match “Administrator”) {$Host.UI.RawUI.ForegroundColor = “DarkRed”}
